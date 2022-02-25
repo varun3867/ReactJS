@@ -1,0 +1,87 @@
+												
+													
+													Date : 04-01-2022
+												  Forms-Formick library
+											--------------------------------------
+											
+											
+											
+Structure of form:
+formik will take three attributes, initialValues={} , validationSchema={}, onSubmit
+create validationSchema using Yup library
+const initialValues={
+		'FNAME;:''
+	
+	}
+	
+const validationSchema=YUP.OBJECT{
+
+	//HERE WE NEED TO PROVIDE THE VALIDATIONS FOR INTITIAL VALUES
+	'FNAME':YUP.STRING().REQUIRED("CAN'T LEFT BLANK");
+		
+	}
+CONST ONSUBMIT = VALUES =>{
+		//GET VALUES AND DO THE OPERATIONS ON FORM VALUES
+	}
+<formik initialValues={} 
+		validationSchema={}
+		onSubmit>
+	
+	<form>
+	
+		<Field></Field>
+		
+		<ErrorMessage></ErrorMessage>
+	
+	</form>
+
+</formik>
+
+-----------------------------------------
+
+import {Formik,Form,Field} from 'formik';
+
+function Registration(){
+	
+	const initialSchema={
+			"fname":""
+			}
+	
+	//yup standards are provided by third party library but not by the facebook library.
+	const validationSchema= Yup.object({
+				
+				"fname":Yup.string().required("Required!")
+									.max(10,"maximum 10 characters are required")
+									.min(6,"minimun 6 characters are required")
+			
+			})
+		
+	const onSubmit = values => {
+			
+			console.log(values);
+		
+	}
+	
+	return(
+	
+		<Formik initialValues={initialSchema}
+				validationSchema={validationSchema}
+				onSubmit={onSubmit}>
+		
+			<Form>
+			
+				<Field></Field>
+				
+				<ErrorMessage></ErrorMessage> // To write error messages we need to use ErrorMessage Component of Formik library
+				
+			</Form>
+		
+		</Formik>
+		
+		//<React.Framget> is not required because multi level encapsulation is not required
+	
+	)
+
+}
+
+export default Registration;

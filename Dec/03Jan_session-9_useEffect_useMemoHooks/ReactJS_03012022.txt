@@ -1,0 +1,21 @@
+
+											Date : 03-01-2022
+										useEffect and useMemo Hook
+									------------------------------------
+									
+									
+useEffect renders everytime after the component renders.
+It takes two arguments.
+	1. arrow funtion
+	2. dependencies
+	
+	useEffect( ()=>{} , [] );
+	
+If we want to render a component when there is any change in props. Then pass that functional component/component to the React.Memo
+If changes detected in props then only component re-renders. otherwise component will not re-render.
+
+syntax
+-------------
+
+const myMemoHook = React.Memo( funtionalComponent )
+export default myMemoHook
