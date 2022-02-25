@@ -1,0 +1,176 @@
+													
+													Date : 02-02-2022
+												Single Page Application
+											------------------------------
+								
+		
+	
+Single Page Application : Loading one component to another component without refresing the whole webpage is called SPA.
+
+
+This navigation is done by using Routing in ReactJS.
+Objects required for routing are provided by react-router-dom package
+current version of react-router-dom is v6.
+
+
+
+Design :
+	we have 5 components--> Master, Layout, Pageone, Pagetwo, Pagethree
+	Master component has Layout Component 
+	Layout component has three hyper links and magnent.
+	we have to make Layout component as default component. 
+	Magnet is used to hold the target components.
+	Target components are Pageone, Pagetwo, Pagethree components.
+	we have to make Pageone as default component in Layout
+	
+	
+step-1:
+	create react application
+	>npx create-react-app spa-demo-v6
+	
+step 2:
+	switch to react application
+	
+	>cd spa-demo-v6
+
+step 3:
+	download the react-router-dom
+	
+	>yarn add react-router-dom
+	
+step 4:
+	
+	create Layout component
+	
+	Layout.js:
+	----------
+	import React from 'react';
+	import { Link,Outlet } from 'react-router-dom'; // Magnet is Outlet
+	function Layout(){
+	
+		return(
+			<React.Fragment>
+				
+				<Link to="/" style={{marginRight:100}}>Page1</Link>
+				<Link to="/page_two" style={{marginRight:100}}>Page2</Link>
+				<Link to="/page_three" style={{marginRight:100}}>Page3</Link>
+				<br></br>
+				<Outlet/> //this is a magnet used to hold the target components like Pageone/Pagetwo/Pagethree
+				
+			</React.Fragment?
+		)
+	
+	
+	}
+	
+	export default Layout;
+	
+	
+step 5:
+	
+	create target components
+		
+		Pageone.js:
+		-----------
+		import React from 'react'
+		function Pageone(){
+			
+			return(
+				
+				<React.Fragment>
+					
+					<h1 style={{color:"green"}}>Pageone</h1>
+				
+				</React.Fragment>
+				
+			
+			)
+		
+		}
+		export default Pageone;
+		
+		Pagetwo.js:
+		-----------
+		import React from 'react'
+		function Pagetwo(){
+			
+			return(
+				
+				<React.Fragment>
+					
+					<h1 style={{color:"green"}}>Pagetwo</h1>
+				
+				</React.Fragment>
+				
+			
+			)
+		
+		}
+		export default Pagetwo;
+		Pagethree.js:
+		-------------
+		import React from 'react'
+		function Pagethree(){
+			
+			return(
+				
+				<React.Fragment>
+					
+					<h1 style={{color:"green"}}>Pagethree</h1>
+				
+				</React.Fragment>
+				
+			
+			)
+		
+		}
+		export default Pagethree;
+		
+		
+Step 6:
+
+	create Master Component
+	
+	
+	Single Page Application logic should be surrounded by BrouwserRouter.
+	BrowseRouter is present in react-router-router-dom
+	If we have more then one router we have to use Routes Object
+	To go with independent routing we have to use Route Object
+	In Master Component we have to make Layout component as default component
+	In Layout Component we have to make Pageone component as default component
+	
+	Master.js:
+	----------
+	import React from 'react';
+	import {BrowserRouter, Routes, Route} from 'react-router-dom;
+	import Layout from "./pages/Layout"
+	import Pageone from "./pages/Pageone"
+	import Pagetwo from "./pages/Pagetwo"
+	import Pagethree from "./pages/Pagethree"
+	function Master(){
+		
+		<BrowseRouter>
+			<Routes>
+				<Route Path="/" element={<Layout/>}>
+					<Route index element={<Pageone/>}></Route>
+					<Route path="/page_two" element={Pagetwo/}></Route>
+					<Route path="/page_three" element={Pagethree}></Route>
+				</Route>
+			</Routes>
+			
+		</BrowseRouter>
+	
+	}
+	
+	export default Master;
+
+
+step 7:
+	execute the Master component
+	
+	In index.js file import Master component and provide Master componet in place on App component
+	
+step 8:
+	start the server
+	>yarn start
+

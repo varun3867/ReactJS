@@ -1,0 +1,177 @@
+												
+												Date : 03-02-2020
+											Single Page Application
+										--------------------------------
+									
+			
+
+MERN Stack Project
+	MongoDB, Express, ReactJS, NodeJS
+	
+	
+Day -1 :
+	
+	1) create login_details collection in mongoDB Atlas
+	
+	database details : 
+		database name : miniproject
+		collection name : login_details
+		username : varun
+		password :varun
+		url : mongodb+srv://admin:<password>@cluster0.1w6x8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+			  mongodb+srv://admin:admin@cluster0.1w6x8.mongodb.net/miniproject?retryWrites=true&w=majority
+			{"_id":{"$oid":"61fc0e15f000fb2b66f8fa0f"},"email":"hr@ashokit.in","password":"ashokit"}
+			
+			
+	2) Implement the backend
+		
+		create the directory miniproject_server
+		swith to miniproject_server
+			cd miniproject_server
+			
+		Download the node_modules
+			- express
+			- mongodb
+			- cors
+			- jwt-simple
+		express module used to develop the restful services
+		mongodb used to connect to mongodb database
+		cors module used to enable the ports communication
+		jwt-simple module used to generate the token
+		
+		> yarn add express mongodb cors jwt-simple
+		
+		develop rest api 
+					server.js
+					
+		require() function is used to import the modules
+		
+		start the node server
+			> node server
+			
+		Test the rest api by using postman
+			post 	 http://localhost:8080/login
+			body:
+				{
+					"email":"hr@gmail.com",
+					"password":"admin"
+				}
+		
+		create react application
+			>npx create-react-app miniproject-app
+		switch to react application
+			>cd miniproject-app
+		download axios module
+			> yarn add axios  --> used to consume the rest apis
+			>react-router-dom --> used to implement the routing
+			
+			
+Day - 2:
+		
+		create single page application
+		
+		Layout.js
+		Login.js
+		Master.js
+			In Master component, Layout component is default component
+			In Layout component, Login component is default component
+			
+		useRef hook is used to read/refer data from input fields
+		
+			create reference using useRef() hook and link them in the input fields using 'ref'
+			
+		Login.js:
+		---------
+		import React,{useRef} from "react"
+		import axios from "axios";
+
+		function Login(){
+
+			const user_email = useRef();
+			const user_password = useRef();
+
+			const login = () => {
+				axios.post("http://localhost:8080/login",{"email":user_email.current.value,"password":user_password.current.value}).then((posRes)=>{
+					const {data} = posRes;
+					console.log(data)
+					if(data.login=="success"){
+							window.localStorage.setItem("login_status",JSON.stringify(data))
+					}
+					else{
+						alert("login failed")
+					}
+				},(errRes)=>{
+						console.log(errRes)
+				})
+			}
+
+			return(
+				<React.Fragment>
+
+					<input type="text" ref={user_email} placeholder="enter email"></input>
+					<input type="password" ref={user_password} placeholder="enter password"></input>
+					<button onClick={login}>Login</button>
+
+				</React.Fragment>
+			)
+		}
+		export default Login;
+
+Day - 3:
+
+		cloud images : 
+
+		https://miniproject-rjs.s3.us-east-2.amazonaws.com/p1.jpg
+		https://miniproject-rjs.s3.us-east-2.amazonaws.com/p2.jpg
+		https://miniproject-rjs.s3.us-east-2.amazonaws.com/p3.jpg
+		https://miniproject-rjs.s3.us-east-2.amazonaws.com/p4.jpg
+		https://miniproject-rjs.s3.us-east-2.amazonaws.com/p5.jpg
+		https://miniproject-rjs.s3.us-east-2.amazonaws.com/p6.jpg
+
+
+	create the collection in mongodb database
+	
+	collection name : products
+	
+	user name : admin
+	password : admin
+	
+	connection url : mongodb+srv://admin:<password>@cluster0.1w6x8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+					 mongodb+srv://admin:admin@cluster0.1w6x8.mongodb.net/miniproject?retryWrites=true&w=majority	
+	Implement the backend (nodeJS):
+	-------------------------------
+	server.js
+	
+	start the node server
+		>node server
+		
+	Test the rest api using postman:
+	--------------------------------
+	
+	http://localhost:8080/login
+		{
+			"login": "success",
+			"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImhyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiYWRtaW4ifQ.0B7h1v32KvYN2BvDOWpHZhTKC8QfzZv74LUJVgaK9lE"
+		}
+	
+	http://localhost:8080/products
+	
+
+Day - 4:
+
+	> create products component
+		-read the token from local storage and send token to backend with the help of headers.
+	
+	implement the dashboard component
+	Dashboard is single page components
+	
+		DashboardLayout.js
+		
+		Dadshboard.js
+		
+	
+	navigate from login Component to Dashboard component
+		
+		
+	
+	
