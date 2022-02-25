@@ -1,0 +1,110 @@
+									
+										Date : 30-12-2021
+										   Context API
+									------------------------------
+
+Context API is used to store the global data.
+This Data can be accessed in any of the children component without the need to pass it.
+
+createContext is a hook which is used to create global space/context.
+
+Setup a context provider to define the data which you want to store
+Use a context consumer whenever you need the data from the store
+
+Step 1 : To create Global space, first import createContext object/hook from react library
+		 import { createContext } from 'react';
+		 
+Step 2 : After importing, export it
+		 export const myContext = createContext({})
+			Here		
+				{} indicates that it can store an kind of data like object.
+		 To modify/use context, import like -- import { myContext } from "../<ComponentName>"
+					or
+		 export default myContext = createContext({})
+		 To modify/use context, import like -- import myContext from "../<ComponentName>"
+
+global.js:
+-----------
+import React,{ createContext } from "react";
+export const globalData = createContext({});
+
+import to use it:
+-----------------
+import { globalData } from "./global/global";
+
+Provider is used to define the data.
+While creating context we have given {}. So we need to define data inside {} only
+
+        <globalData.Provider value={{userName,setUserName,showProfile,setShowProfile}}>
+
+        </globalData.Provider>
+
+uesContext is used to access this global data from different components:
+    const {userName} = useContext(globalData);
+
+global.js
+--------------
+import React,{ createContext } from "react";
+export const globalData = createContext({});
+
+
+App.js
+--------------
+import { useState } from 'react';
+import './App.css';
+import { globalData } from "./global/global";
+import Login from "./Login";
+import Profile from "./Profile";
+function App() {
+  const [userName,setUserName] = useState("");
+  const [showProfile,setShowProfile] = useState(false);
+  return (
+    <div className="App">
+        <globalData.Provider value={{userName,setUserName,showProfile,setShowProfile}}>
+            {showProfile?<Profile></Profile>:<Login></Login>}
+        </globalData.Provider>
+    </div>
+  );
+}
+
+export default App;
+
+
+Login.js
+----------
+import React, { useContext } from "react";
+import { globalData } from "./global/global";
+function Login(){
+    const {setUserName,setShowProfile} = useContext(globalData);
+    return(
+        <React.Fragment>
+            <fieldset>
+                <legend>Login</legend>
+                <input type="text" 
+                       placeholder="User Name"
+                       onChange={(event)=>setUserName(event.target.value)}></input>
+
+                <br></br><br></br>
+                <input type="password" placeholder="Password...."></input>
+
+                <br></br><br></br>
+                <button onClick={()=>setShowProfile(true)}>Login</button>
+            </fieldset>
+        </React.Fragment>
+    )
+}
+export default Login;
+
+Profile.js
+---------------
+import React, { useContext } from "react";
+import { globalData } from "./global/global";
+function Profile(){
+    const {userName} = useContext(globalData);
+    return(
+        <React.Fragment>
+            <h1>{userName}</h1>
+        </React.Fragment>
+    )
+}
+export default Profile;
