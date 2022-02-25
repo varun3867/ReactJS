@@ -1,0 +1,52 @@
+
+													Day - 1
+
+React is a  Javascript Library.
+It is released by facebook company
+React categorised into 3 flavours
+	1. ReactJS  -- used to create web application
+					we can build applications in two ways
+						1. Javascript  -- scripting language    --  not support oops
+						2. Typescript  -- programming language  --  it will support oops
+	2. React Native -- used to create mobile applications
+	3. React bootstrap -- used to apply rich ui to both web applications and mobile applications
+	
+
+Introduction to Javascript :
+
+	Javascript is the scripting language
+	Javascript released by Netscape or vendor is Netscape.
+	current version of JS is ES12(ES stands for Ecma Script).
+	JS files will be saved with ".js" extension
+	Two ways to execute the javascript
+		1.Interpeter 
+			It is bydefault available in browser engine Ex: Google Chrome, Mozilla, Opera
+		2.Node tool
+			It is available in NodeJS software
+	Vendor provided predefined objects, as a JS developer we can use predefined objects,
+	So Javascript called as object based scripting language
+	Ex: window, document, console, navigator, date, time, ......
+	Javascript code will execute line by line with either interpreter or node tool, so we can say this is synchronous execution
+	
+	we can include javascript to web pages with <script> tag
+	Visual Studio Code IDE(Integrated Development Environment) is suggestable IDE to develop JS Applications
+	VSCode IDE is the open source IDE and is provided by Microsoft.
+	
+	
+	console.log("welcome to javascript");               //welcome to javascript
+	console.log( 10+10 );                               //20
+	console.log( 10+"10" );                             //1010
+	
+	
+	console.log(10+ +"10");   //20   		// automatically string datatype is converted into int datatype by adding one more '+' symbol
+	
+	
+	Except '+' other symbols like -, *, / will convert string datatype to integer datatype on both sides
+	console.log( 10 - "10" );   //0
+	console.log( "10" * 10 );   //100
+	console.log( "10" / 10 );   //1
+	console.log( "10" / "10" ); //1
+	
+	
+	console.log( 10 / "A" ); 	//NaN  // A will not be converted into ASCII values. That will be possible in C languges but not in JS
+	console.log( 10 / "0" ); 	//Infinity

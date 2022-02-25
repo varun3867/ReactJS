@@ -1,0 +1,91 @@
+
+													Day 2
+													
+													
+In javascript true means 1 and false means 0													
+
+console.log( 10>9>8 );   //false
+
+	10 > 9  --  true
+	 true > 8 
+				true is 1 and false is 0
+	1 > 8 --- false
+	
+console.log( 3<2<1 );    //true
+
+	3 < 2  -- false
+	 false < 1
+			true is 1 and false is 0
+	0 < 1  -- true
+
+
+// ==    -->  compares values
+// ===   -->  compares both values and datatype
+
+console.log( 10 == "10" );     //true   --> compare value
+console.log( 10 === "10" );    //false  --> compare value and datatype
+console.log( 10 == "ten" );    //false  --> compare value
+console.log( 10 === "ten" );   //false	--> compare value and datatype
+
+
+In javascript true means 1 and false means 0													
+//true ---1
+//false --- 0
+console.log( true + true );     //2
+console.log( true - true );     //0
+console.log( true / true );     //1
+console.log( true / false );    //Infinity  --> 1/0 is infinity
+console.log( 10/true );         //10
+
+
+
+Addition of fractional numbers is more precious and accurate so 0.1 + 0.2 = 0.3000000004
+console.log( 0.1+0.2 );          //0.30000000000000004
+console.log( 0.1+0.2 == 0.3 );   //false
+console.log( 0.1+0.2 === 0.3 );  //false
+
+
+
+//BODMAS
+//B - Bracket
+//O - Of
+//D - Division
+//M - Multiplication
+//A - Addition
+//S - Subtraction
+console.log( 10 -5/5+10 );          //19  
+		first priority goes to division. so 5/5 is 1
+				10 - 1 + 10
+		second priorty goes to addition. so 10 - 1 = 9
+				9 + 10 = 19
+console.log( (10 -5) / (5+10) );    //0.3333333333333333
+		first priority goes to brackets. so 5/15 = 0.3
+		
+		
+
+Evalution happens from left to right 
+// &   ( and operator )         ----   if both are "true" then result is "true"
+// |   ( or operator  )         ----   if atleast one value is true then result is true
+// ^   ( xor operator )        ----   if both are opposite then result is true
+console.log( 1 & 1 );           //1
+console.log( 1 & 0 );           //0
+console.log( 0 & 1 );           //0
+console.log( 0 & 0 );           //0
+console.log( 1 & 1 & 1 );       //1  
+console.log( 1 & 1 & 0 );       //0
+
+
+console.log( 1 | 1 );           //1
+console.log( 1 | 0 );           //1
+console.log( 0 | 1 );           //1
+console.log( 0 | 0 );           //0
+console.log( (1 & 1) | (1 | 0) );    //1
+
+
+console.log( 1 ^ 0 );               //1
+console.log( 0 ^ 1 );               //1
+console.log( 1 ^ 1 );               //0
+console.log( 0 ^ 0 );               //0
+
+
+"npx gitignore node" command to ignore node folder

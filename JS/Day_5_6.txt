@@ -1,0 +1,242 @@
+
+
+													Day - 5 & Day 6
+													
+
+<!--
+    function
+    ********
+        - block of business logic (code) called as function
+        - functions are used to "reuse" the business logic
+        - we have different types of functions
+        1) named functions
+        2) anonymous functions / arrow functions / lamda functions
+        3) generator functions
+            ---
+            ---
+            ---
+    named functions
+    ***************
+        - the function with "user" defined name called as named function
+    Syntax
+    ++++++
+        1) function defintion
+        2) function calling
+    function definition
+    *******************
+    function functionname(param1,......param n){
+        //business logic
+    }
+    call the function
+    *****************
+    functionname(arg1,......arg n);
+-->
+
+<!--
+<script>
+    function fun_one(){
+        return "welcome to named functions";
+    }
+    console.log( fun_one() );               //welcome to named functions
+</script>
+-->
+
+
+<!--
+<script>
+    function fun_one(){
+        return "welcome to reactjs";
+    }
+    console.log( fun_one );    //def
+</script>
+-->
+
+
+<!--
+<script>
+    function fun_one(param1,param2,param3){
+        console.log( param1, param2, param3 );
+    }
+    fun_one("Angular13","NodeJS","MongoDB");                //Angular13 NodeJS MongoDB
+    fun_one("ReactJS","NodeJS","MongoDB");                  //ReactJS NodeJS MongoDB
+    fun_one(undefined,"Hello_2");                           //undefined 'Hello_2' undefined
+    fun_one();                                              //undefined undefined undefined
+    fun_one(null,null,null);                                //null null null
+</script>
+-->
+
+
+<!--
+<script>
+    function fun_one(){
+        return fun_two;
+    }
+    function fun_two(){
+        return "Hello";
+    }
+    console.log( fun_one()() );             //Hello
+</script>
+-->
+
+<!--
+//If we initialize the values for variables in the arguments itself of a function is called default parameters in functions
+// undefined has no right to override the default values
+//null has right to override the default values
+<script>
+    function fun_one(param1="Hello_1",param2="Hello_2",param3="Hello_3"){
+        console.log( param1, param2, param3 );
+    }
+    fun_one();                                      //Hello_1 Hello_2 Hello_3
+    fun_one("Welcome_1","Welcome_2","Welcome_3");   //Welcome_1 Welcome_2 Welcome_3
+    fun_one(undefined,undefined,undefined);         //Hello_1 Hello_2 Hello_3 //undefined has no right to override the default values
+    fun_one(undefined,"Welcome_2");                 //Hello_1 Welcome_2 Hello_3
+    fun_one(null,null,null);                        //null null null  //null has right to override the default values
+</script>
+-->
+
+<!--
+//default parameters for spread operator is not possible
+<script>
+    function fun_one(...param1){
+        console.log( param1 );
+    }
+    fun_one("Hello_1");             //['Hello_1']
+    fun_one("Hello_1","Hello_2");   //['Hello_1', 'Hello_2']
+    fun_one();                      //[]
+    fun_one(undefined,undefined);   //[undefined, undefined]
+    fun_one(null,null,null);        // [null, null, null]
+</script>
+-->
+
+
+
+<!--
+//Rest parameter must be last formal parameter. we are not allowed to declare before any other parameters
+function fun_one(...param3,param1,param2="Hello_2"){} // not allowed
+<script>
+    function fun_one(param1,param2="Hello_2",...param3){
+        console.log( param1, param2, param3 );
+    }
+    fun_one();                      //undefined 'Hello_2' []
+    fun_one("Hello_1");             //Hello_1 Hello_2 []
+    fun_one("Hello_1",undefined,"Hello_3");         //Hello_1 Hello_2 ['Hello_3']
+    fun_one(undefined,undefined,undefined);         //undefined 'Hello_2' [undefined]
+    fun_one(null,null,null);                        //null null [null]
+    fun_one("Hello_1",undefined,"Hello_3","Hello_4");   //Hello_1 Hello_2 (2) ['Hello_3', 'Hello_4']
+</script>
+-->
+
+
+*********************************************************************************************************************
+									------------------Day 6 ------------------ 
+*********************************************************************************************************************
+
+<!--
+    anonymous functions
+    *******************
+        - The function "without" name called as "anonymous" function
+        - anonymous functions also called as "arrow" functions
+        - arrow functions introduced in "ES6"
+        - we will represent arrow functions with "=>"
+        - arrow functions also called as "callback" functions
+    syntax
+    ******
+    1) function definition
+    2) function calling
+    function definition
+    *******************
+    var/let/const variablename = (param1,param2,param3,....paramn)=>{
+        //business logic
+    }
+    function calliing
+    *****************
+    variablename(arg1,arg2,arg3,.....argn);
+-->
+
+<!--
+<script>
+   let fun_one = ()=>{
+       return "welcome to arrow functions";
+   }
+   
+   console.log( fun_one() );                //welcome to arrow functions
+</script>
+-->
+
+<!--
+<script>
+    let fun_one = ()=>{
+        return "hello";
+    }
+    console.log( fun_one );                 //def
+</script>
+-->
+
+<!--
+<script>
+    let fun_one = (param1,param2,param3)=>{
+        console.log( param1, param2, param3 );
+    }
+    fun_one();                                  //undefined undefined undefined
+    fun_one("Hello_1","Hello_2","Hello_3");     //Hello_1 Hello_2 Hello_3
+    fun_one(null,null,null);                    //null null null
+    fun_one(undefined,"Hello_2");               //undefined 'Hello_2' undefined
+</script>
+-->
+
+
+<!--
+<script>
+    let fun_one = param1=>console.log(param1);
+    fun_one();          //undefined
+    fun_one("Hello_1"); //Hello_1
+    fun_one(null);      //null
+</script>
+-->
+
+
+<!--
+<script>
+    let network_call = (successCallBack,errorCallBack)=>{
+        console.log( successCallBack(), errorCallBack() );
+    }
+    network_call( ()=>{ return "Success" }, ()=>{ return "Error" } );
+    //Success Error
+</script>
+-->
+
+
+<!--
+<script>
+    let fun_one = (param1, param2="Hello_2",...param3)=>{
+        console.log( param1, param2, param3 );  
+    }
+    fun_one();                                       //undefined 'Hello_2' []
+    fun_one("Hello_1");                              //Hello_1 Hello_2 []
+    fun_one("Hello_1",undefined,"Hello_3");          //Hello_1 Hello_2 ['Hello_3']
+    fun_one("Hello_1",undefined,"Hello_3","Hello_4");//Hello_1 Hello_2  ['Hello_3', 'Hello_4']
+    fun_one(undefined,undefined,undefined);          //undefined 'Hello_2' [undefined]
+    fun_one(null,null,null);                         //null null [null]
+</script>
+-->
+
+
+<!--
+    generator functions
+    *******************
+        - generator function controls the flow of execution.
+        - generator functions prefix with "*"
+        - generator function returns cursor mechanism
+        - by using above cursor mechanism, we can control flow of execution.
+        - the default position of cursor mechanism is above first record (first statement)
+-->
+
+
+
+ES6:
+let and const keyword
+backtick operator or template literal
+forEach() loop
+
+default parameters in functions
+spread operator
