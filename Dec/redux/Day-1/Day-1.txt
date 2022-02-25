@@ -1,0 +1,135 @@
+
+											
+											Redux
+									---------------------
+									
+									
+
+Day - 1:
+
+	Reading the data from central repository is called Subcribe
+	sending the data to central repository is called Dispatch
+	Dispatch contains two parts 1. Action 2. Payload
+	
+	Maintaining common space for all components to store data and access data is called Middlewares
+	Middlewares reduces the communication detween components.
+	Middlewares reduces the burden on server.
+	we have following middlewares
+		- Redux
+		- Thunk
+		- Saga
+	
+	Terminology:
+	************
+	1)store
+	2)reducer  -- it should be inside the store
+	3)initial state -- application minimum output
+	4)state -- reducer output
+	5)dispatch -- client sending the request is called dispatch. 
+				  It internally has two parameters.
+					1. Action
+					2. Payload
+	6)Subscribe -- receiving the result we call as subscribe. when we receive result the result is state.
+
+
+
+	Ex:1
+	----
+	
+	create the directory
+		Ex: Basic_Redux_Ex
+	switch the directory
+		>cd Basic_Redux_Ex
+		
+	download the redux library
+	> yarn add redux
+	redux library downlods to "node_modules"
+	create redux application
+		Bank.js
+		-------
+		//import createStore function
+		//createStore function is predefined function available in redux library
+		//createStore function is used to create the store
+		const { createStore } = require("redux")
+		
+		//create the initial state
+		const initialStore = {
+			
+			bal : 2000
+		
+		}
+		
+		//create reducer -- reducer is nothing but arrow function
+		//reducer takes two parameters. 1. output of the application/reducer -- state
+										2. input of the application/reducer -- action
+		const reducer = (state=initialState,action) => {
+		
+			switch(action.type){
+				/*
+				case "WITHDRAW":
+					return {"bal":state.bal-action.value}
+				case "DEPOSIT":
+					return {"bal":state.bal+action.value}
+				default:
+					return state;
+				*/
+				//the below is industry standard and called as immutability
+				case "WITHDRAW":
+					
+					return{
+						...state, //take original copy
+						bal : state.bal - action.value // on above taken origincopy we are doing modifications
+					}
+				
+				case "DEPOSIT":
+					
+					return{
+						...state,
+						bal:state.bal + action.value
+					}
+				
+				default:
+					return{
+						...state
+					}
+				
+			}
+		
+		
+		}
+		//we have to deploy/put reducer into the store
+		
+		//create the store
+		const store = createStore(reducer)
+		
+		
+		//after dispatching we need to go for subscription
+		//subscribe function takes one patameter that is arrow function
+		store.subscribe( ()=>{
+				console.log(store.getState());
+			}
+		)
+		
+		
+		
+		
+		//dispatch
+		store.dispatch({type:"WITHDRAW",value:1000})
+		//Here type is action and value is payload
+		//Here json[   {type:"WITHDRAW",value:1000}   ]  object stored into action of reducer function
+		//we can access like action.type and action.value in reducer function
+		
+		//dispatch - 2
+		//store.dispatch({type:"DEPOSIT",value:2000})
+		
+		//Each dispatcher we can say as a transaction
+		//to watch these transactions. we have to recruit a person that is "Thunk".
+		//Thunk monitor the request
+		//Saga modifies the request
+		
+		
+		Output:
+		-------
+		{ bal : 1000 }
+		{ bal : 3000 }
+		

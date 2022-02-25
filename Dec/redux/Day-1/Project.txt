@@ -1,0 +1,564 @@
+
+
+							project 
+							
+Day - 1:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Day -2 :
+
+	server.js:
+	----------
+	
+	//import the modules
+	//require() is the predefined function used to import the modules
+	const express = require("express")
+	const mongodb = require("mongodb")
+	const cors = require("cors")
+
+
+	//create the rest object
+	//rest object used to develop rest services
+	const app = express()
+	//where "app" is the rest object
+	//where "app" object used to develop rest services
+
+	//enable the cors policy
+	app.use(cors())
+
+	//set the json as MIME type
+	app.use(express.json())
+
+	//create the client object
+	const ashokit = mongodb.MongoClient;
+
+	//where ashokit is the client object
+	//by using ashokit we can connect to the database
+
+	//create the get request
+	app.get("/products",(req,res)=>{
+
+		ashokit.connect("mongodb+srv://admin:admin@cluster0.1w6x8.mongodb.net/miniproject?retryWrites=true&w=majority",(err,connection)=>{
+					if(err) throw err
+					else{
+						const db = connection.db("miniproject")
+						db.collection("products").find().toArray((err,array)=>{
+							if(err) throw err
+							else{
+								res.send(array)
+							}
+						})
+
+
+					}
+		})
+
+	})
+
+
+	app.listen(8080,()=>{
+		console.log("server listening the port number 8080")
+	})
+	
+	
+	
+Integration of backend to frontend with middleware:
+***************************************************
+
+-> create the react application
+    > npx create-react-app middleware-frontend
+-> switch to the react application
+	> cd middleware-frontend
+-> download the libraries
+    > redux
+		used to create redux architecuture
+	> react-redux
+		used to integrate the redux architecuteture to ret application
+	> redux-thunk
+		used to monitor the actions
+	> axios
+		used to make the asynchronous calls
+		
+	> yarn add redux react-redux redux-thunk axios
+	
+	create redux architecutre:
+	**************************
+		-> constants
+			
+			
+		
+		-> actions
+		
+		-> reducer
+		
+		-> store
+		
+		-> component
+		
+		actions gives result to reducer. reducer gives result to store. store gives result to component
+		
+		
+Day - 3 :
+
+create the constants
+********************
+
+*********************************************************	
+frontend-middleware
+				src
+					constants
+						productsConstants.js
+*********************************************************
+
+	finally following constants are ready
+		1)GET_PRODUCTS
+		2)GET_PRODUCTS_SUCCESS
+		3)GET_PRODUCTS_FAIL
+		
+export const GET_PRODUCTS = "GET_PRODUCTS"
+export const GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS"
+export cosnt GET_PRODUCTS_FAIL = "GET_PRODUCTS_FAIL"
+	
+create the actions
+******************
+
+*********************************************************
+frontend-middleware
+				src
+				  actions
+					productsActions.js
+*********************************************************
+
+	finally productsActions is ready
+
+
+import {GET_PRODUCTS,GET_PRODUCTS_FAIL,GET_PRODUCTS_SUCCESS} from "../constants/productConstants"
+import axios from "axios"
+
+
+export const productActions = () => {
+	return async (dispatch) => {
+		dispatch({
+			type : GET_PRODUCTS,
+			loading:false,
+			products:[],
+			error:""
+		})
+		
+		
+		try{
+			const {data} = await axios.get("http://localhost:8080/products")
+			dispatch({
+				type:"GET_PRODUCTS_SUCCESS",
+				loading:true,
+				products=data,
+				error:""
+			})
+		
+		}catch(err){
+			dipatch({
+				type:"GET_PRODUCTS_FAIL",
+				loading:true,
+				error:err.message,
+				products:[]
+			})
+		}
+	}
+}
+
+
+
+
+create the reducer
+******************
+
+*********************************************************
+frontend-middleware
+				src
+					reducer
+						productsReducer.js
+*********************************************************
+
+
+const initialState={
+	loading : false,
+	error:"",
+	products:[]
+}
+
+export const productReduer = (state=initialState,action) => {
+
+
+	switch(action.type){
+		
+		case GET_PRODUCTS:
+		case GET_PRODUCTS_FAIL:
+		case GET_PRODUCTS_SUCCESS:
+			return{
+				...state,
+				loading:action.loading,
+				products:action.products,
+				error:action.error
+			}
+		default:
+			return state;
+	}
+}
+
+Day - 4:
+
+	Deploy reducer to store and apply the "thunk" middleware and makes availability of store to component
+	
+		index.js
+				import React from 'react';
+				import ReactDOM from 'react-dom';
+				import './index.css';
+				import App from './App';
+				import reportWebVitals from './reportWebVitals';
+
+				//create store is used to create the store
+				//applyMiddleware used to apply the middlewares like thunk, saga
+				import {createStore,applyMiddleware, combineReducers} from "redux";
+				//omporting thunk middleware
+				import thunk from "redux-thunk";
+				//importing reducer
+				import {productsReducer} from "./reducer/reducerProducts"
+				//we have created store using createStore. to make store available to the App Component
+				//we need to import provider
+				import {Provider} from "react-redux";
+								*******************************************************************
+									import { loginReducer } from './reducer/loginReducer';
+
+									const rootReducer =  combineReducers({
+									  login : loginReducer,
+									  product : productsReducer
+									})
+
+									const store = createStore(rootReducer,applyMiddleware(thunk))
+								********************************************************************
+								
+				const store = createStore(productsReducer,applyMiddleware(thunk))
+
+				ReactDOM.render(
+				  <React.StrictMode>
+					<Provider store={store}>
+					   <App />
+					</Provider>
+				  </React.StrictMode>,
+				  document.getElementById('root')
+				);
+
+				// If you want to start measuring performance in your app, pass a function
+				// to log results (for example: reportWebVitals(console.log))
+				// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+				reportWebVitals();
+
+Day - 5:
+	
+	perform dispatch and subscribe from component
+	*********************************************
+		App.js
+		
+		import React, { useEffect } from "react";
+		//useSelector hook is used to perform subscription
+		// useDispatch hook is used to perform the dispatch opertaion
+		import {useSelector,useDispatch} from "react-redux"
+		import { productsActions } from "./actions/ProductsActions";
+
+		function App() {
+
+		  const dispatch = useDispatch();
+		  const res = useSelector(state=>state);
+		  console.log(res)
+		  useEffect(()=>{
+			dispatch(productsActions())
+
+		  },[])
+
+		  return (
+			<React.Fragment>
+
+				<h1>{JSON.stringify(res)}</h1>
+
+			</React.Fragment>
+
+		  );
+		}
+
+		export default App;
+		
+
+day -6 :
+	springboot integration with ReactJS
+	
+	1)Execute springboot application with following command
+			java -jar Mini-project-0.0.0-snapshot.jar
+			
+	2)Test the following rest api using postman
+		http://localhost:5000/api/v1/products
+		
+	3)create the react application
+		npx create-react-app spring-boot-integration
+		
+	4)switch to react application
+		> cd springboot integration
+		
+	5) download libraties
+		> redux
+		> react-redux
+		> redux-thunk
+		> axios
+		> yarn add redux react-redux redux-thunk axios
+		
+	6) implement the redux architecture
+	
+		> constants
+		> actions
+		>reducers
+		>store
+		>components
+		
+	
+	Login Application with State Management :
+	*****************************************
+	
+	1) make the database ready
+	
+		database name: redux-middleware
+		collection name : login_details
+		username : admin
+		password : admin
+		
+		connection url : mongodb+srv://admin:admin@cluster0.1w6x8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+		
+		
+	2) create the login_server directory
+	
+	3) switch to login_server
+		> cd login_server
+	4) download nodu modules
+		a) express
+		b) cors
+		c) mongodb
+		d) yarn express cors mongodb
+		
+		
+	5) implement the node server
+		
+		server.js
+	6) start the node server
+		
+		node server
+	
+	7) test the rest api by using Postman
+		
+		=> http://localhost:8080/login (Post)
+		
+	8) npx create-react-app login-app
+			
+	
+	
+	
+Saga:
+
+	To control flow of execution we have generator functions
+	Inside generator function, each statement starts with Yield keyword
+	we use put function, to connect to the reducer
+	
+	Saga Middleware is used to manipulate the actions
+	
+	1) create the react application
+		> npx create-react-app saga-app
+		
+	2) switch to react application
+		> cd saga-app
+	
+	3) Download the middleware library
+			> redux
+			> react-redux
+			> redux-saga
+			> yarn add redux react-redux redux-saga
+	
+	4) create the constants
+		saga-app
+				src
+					constants
+							bankConstants.js
+							
+				export const WITHDRAW = "WITHDRAW";
+				export const WITHDRAW_GST = "WITHDRAW_GST" ; 
+				
+	5) manipulate the action
+		saga-app
+				src
+					saga
+						bankSaga.js
+				
+		//put() function is used to connect to the reducer
+		//takeLatest() function is used to take the request from the component
+		//delay is used like setTimeout to put the timer
+		import { put, takeLatest, delay } from "redux-saga"
+		import {WITHDRAW} from "../constants/bankConstants"
+		
+		
+		export function *withdraw_gst(action){		
+				delay(5000)
+				yield put({type: WITHDRAW_GST,value=(action.value+action.value*0.18)})
+		}
+		
+		//create generator function
+		export function *withdraw(){
+			//inside generator function each statement starts with yield keyword
+			yield takeLatest(WITHDRAW.,withdraw_gst)
+			//once we receive WITHDRAW, we are executing withdraw_gst
+		
+		}
+		
+	6) create the reducer
+		
+		saga-app
+				src
+					reducer
+						sagaReducer.js
+						
+				
+			import {WITHDRAW_GST} from "../constants/bankConstants";
+			
+			const initialState = {
+					bal : 5000;
+			}
+			
+			export function sagaReducer(state=initialReducer,action){
+			
+				
+				swich(action.type){
+					case WITHDRAW_GST:
+						return{
+							...state,
+							bal:state.bal - action.bal;
+						}
+					default:
+						return state;
+				}
+			
+			}
+			
+	7) create the store
+			
+			index.js
+			
+			
+			import React from 'react';
+			import ReactDOM from 'react-dom';
+			import './index.css';
+			import App from './App';
+			import reportWebVitals from './reportWebVitals';
+			
+			import {Provider} from "react-redux";
+			import {createStore,applyMiddleware} from "redux";
+			
+			import { sagaReducer } from "./reducer/sagaReducer"
+			
+			import createSagaMiddleware from "redux-saga"
+			
+			import { withdraw } from "./saga/banSaga"
+			
+			//saga middleware is used to execute withdraw() function
+			const saga = createSagaMiddleware();
+			
+			const store = createStore(sagaReducer,applyuMiddleware(saga))
+			
+			//registrating sgaga function in the store
+			saga.run(withdraw)
+			
+			ReactDOM.render(
+			  <React.StrictMode>
+				<Provider store={store}>
+				   <App /> 	//Store available to the App Component
+				</Provider>
+			  </React.StrictMode>,
+			  document.getElementById('root')
+			);
+
+			// If you want to start measuring performance in your app, pass a function
+			// to log results (for example: reportWebVitals(console.log))
+			// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+			reportWebVitals();
+
+	
+	8) App.js
+		
+		import { } from "react"
+		import { useDisptch,useSelector} from "react-redux";
+		import { WITHDRAW } from " ./constants/bankConstants ";
+		function App(){
+		
+			const res = useSelector(state=>state)
+			
+			const dispatch = useDispatch();
+			
+			const withdraw = () => {
+					
+					dispach({type:WITHDRAW,value : 1000})
+			}
+		
+			return(
+				<div className="app">
+					{JSON.stringify(res)}
+					<button onClick={withdraw}></button>
+				
+				</div>
+				
+			)
+		
+		}
+		
+		export default App;
+		
+		Output:
+		*******
+			when we click on button, customer want to withdraw 1000, but 1080 withdrawl will happen
