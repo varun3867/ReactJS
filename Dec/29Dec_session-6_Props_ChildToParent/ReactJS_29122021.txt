@@ -1,0 +1,95 @@
+							
+									Date : 29-12-2021
+								Props from child to Parent
+						---------------------------------------------
+						
+useState			It is a hook that holds the property like array or object or string or null or boolean.			
+State 				It is a object that hold the properties belonging to component. 
+					When there is a change in the state the component re-renders.
+Props 				These are key-value pairs used for componenet communication.
+<React.Fragment>    It is used for encapsulating data means wrapping up data into single unit.
+<React.StrictMode>  It is used to wrap a set of components and it will verify the components are following some recommended
+					practices or not. If not following it will show warnings in the console.
+					strict mode checks are run in the dev env only, they do not have any impact on produnction env.
+					Like Fragment, strictMode does not render any visible UI element in the DOM. 
+					It activates additional checks and warnings from the descendents in development mode.
+					
+For child to parent communication use event Handling.
+we write a function and pass that function name as props value to the child component from parent component.
+
+
+Parent.js
+----------------
+
+import React from "react";
+import Child from "./Child";
+
+function Parent(){
+    const myFun = (arg1,arg2,arg3)=>{
+        console.log(arg1, arg2, arg3);
+    };
+    return(
+        <React.Fragment>
+            <Child key1={myFun}></Child>
+        </React.Fragment>
+    )
+}
+
+export default Parent;
+
+-------------------
+Child.js
+------------------
+import React from "react";
+
+function Child(props){
+    return(
+        <React.Fragment>
+            <button onClick={()=>{ props.key1("Hello_1","Hello_2","Hello_3") }}>
+                Click Me
+            </button>
+        </React.Fragment>
+    )
+}
+
+export default Child;
+
+-----------------------
+
+https://www.tutorialfunda.com/category/reactjs/
+https://www.tutorialfunda.com/category/reactjs/page/2/
+
+Destructuring :
+------------------------
+https://www.tutorialfunda.com/reactjs/destructuring-objects-arrays-reactjs-javascript/
+------------------------
+
+The process of taking only part of data from given Object or Array.
+
+Array Destructuring:
+		use const arrays
+	        const [loading,,error] = ["ram","rajiv","raghu"];
+
+Object Destructuring:
+	use const object
+	const {loading,products,error} = arg1;
+
+let arg1 = {
+                   loading:false,
+                   products:[{"p_id":111,"p_name":"p_one","p_cost":10000},
+                             {"p_id":222,"p_name":"p_two","p_cost":20000},
+                             {"p_id":333,"p_name":"p_three","p_cost":30000},
+                             {"p_id":444,"p_name":"p_four","p_cost":40000},
+                             {"p_id":555,"p_name":"p_five","p_cost":50000}],
+                    error:"Network Error"
+               }
+
+const {loading,products,error} = arg1;
+
+To skip any value use :
+const {loading,,error} = arg1;
+
+To sepeare one value from an object and to keep rest in the another array use:
+const {loading,...rest} = arg1;
+If arg1 is an object, rest will be taken into object.
+if arg1 is array, rest will be taken into array.
